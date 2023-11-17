@@ -24,7 +24,10 @@ namespace n01612422Cumulative1.Models
         public string ClassName { get; set; }
 
 
-
+        public Course()
+        {
+            // You can initialize default values here if needed
+        }
 
         public Course(int classId, long teacherId, string classCode, string startDate, string finishDate, string className)
         {

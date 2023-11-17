@@ -7,23 +7,23 @@ using System.Web;
 
 namespace n01612422Cumulative1.Models
 {
-    [DataContract]
     public class Teacher
     {
-        [DataMember]
         public int id { get; set; }
-        [DataMember]
+
         public string fname { get; set; }
-        [DataMember]
+
         public string lname { get; set; }
-        [DataMember]
+
         public string employeeNum { get; set; }
-        [DataMember]
+
         public string hireDate { get; set; }
-        [DataMember]
+
         public double salary { get; set; }
 
         public List<Course> courses { get; set; }
+
+        public Teacher() { }
 
         public Teacher(int id, string firstName, string lastName, string employeeNumber, string hireDate, double salary)
         {
