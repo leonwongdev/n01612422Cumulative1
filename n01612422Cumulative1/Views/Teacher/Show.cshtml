@@ -1,0 +1,31 @@
+﻿@model n01612422Cumulative1.Models.Teacher
+@{
+    ViewBag.Title = "Show";
+}
+
+<a class="navlink" href="/Teacher/List">Back To Teachers</a>
+<div id="containershow">
+    <h2>@Model.fname @Model.lname</h2>
+    <h3>Class list</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+        </tr>
+        @if (Model.courses != null)
+        {
+            foreach (var course in Model.courses)
+            {
+                <tr>
+                    <td>@course.ClassCode</td>
+                    <td>@course.ClassName</td>
+                    <td>@course.StartDate</td>
+                    <td>@course.FinishDate</td>
+                </tr>
+            }
+        }
+
+    </table>
+</div>

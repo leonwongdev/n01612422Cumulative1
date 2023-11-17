@@ -1,0 +1,42 @@
+﻿@model IEnumerable<n01612422Cumulative1.Models.Teacher>
+@{
+    ViewBag.Title = "List";
+}
+
+<div id="containerlist">
+    <h2>List of Teacher</h2>
+    <form action="/Teacher/List" method="GET">
+        <label for="search-key">Name:</label>
+        <input id="search-key" type="text" name="SearchKey" autocomplete="off" />
+        <label for="hire-date">Hire date:</label>
+        <input type="date" id="hire-date" name="HireDate" value="2016-08-05" />
+        <label id="salary">Salary:</label>
+        <input type="number" id="salary" name="Salary" step=".01" />
+        <input type="submit" value="Search" />
+    </form>
+    <form action="/Teacher/List" method="GET">
+        <input type="submit" value="Reset Result Table" />
+    </form>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Employee Number</th>
+            <th>Hire Date</th>
+            <th>Salary</th>
+        </tr>
+
+        @foreach (var teacher in Model)
+        {
+            <tr>
+                <td><a href="/Teacher/Show/@teacher.id">@teacher.id</a></td>
+                <td>@teacher.fname</td>
+                <td>@teacher.lname</td>
+                <td>@teacher.employeeNum</td>
+                <td>@teacher.hireDate</td>
+                <td>@teacher.salary</td>
+            </tr>
+        }
+    </table>
+</div>
