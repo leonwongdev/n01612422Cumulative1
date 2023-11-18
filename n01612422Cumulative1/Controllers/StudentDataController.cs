@@ -6,21 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 
 namespace n01612422Cumulative1.Controllers
 {
-    public class CourseDataController : ApiController
+    public class StudentDataController : ApiController
     {
         private SchoolDbContext SchoolDbContext = new SchoolDbContext();
 
-        // GET api/CourseData/ListCourses
+        // GET api/StudentData/ListStudents
         /// <summary>
-        /// This function retrieves all the row from the classes table.
+        /// This class retrieves all the row from students table.
         /// </summary>
-        /// <returns>A list a course object</returns>
+        /// <returns>A list of student object</returns>
         [HttpGet]
-        public List<Course> ListCourses()
+        public List<Student> ListStudents()
         {
             //Create an instance of a connection
             MySqlConnection Conn = SchoolDbContext.AccessDatabase();
@@ -32,20 +31,20 @@ namespace n01612422Cumulative1.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //SQL QUERY
-            cmd.CommandText = "SELECT * FROM classes;";
+            cmd.CommandText = "SELECT * FROM students;";
             cmd.Prepare();
 
             //Gather Result Set of Query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
-            List<Course> courses = new List<Course>();
+            List<Student> students = new List<Student>();
 
             while (ResultSet.Read())
             {
-                courses.Add(new Course(ResultSet));
+                students.Add(new Student(ResultSet));
             }
 
-            return courses;
+            return students;
         }
     }
 }

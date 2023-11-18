@@ -1,0 +1,33 @@
+﻿@model IEnumerable<n01612422Cumulative1.Models.Course>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Course List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Class ID</th>
+            <th>Teacher ID</th>
+            <th>Class Code</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+            <th>Class Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.ClassId</td>
+                <td>@course.TeacherId</td>
+                <td>@course.ClassCode</td>
+                <td>@course.StartDate</td>
+                <td>@course.FinishDate</td>
+                <td>@course.ClassName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

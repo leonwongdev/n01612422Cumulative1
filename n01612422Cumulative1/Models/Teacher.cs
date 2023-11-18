@@ -7,6 +7,7 @@ using System.Web;
 
 namespace n01612422Cumulative1.Models
 {
+    // This class represents the teachers table.
     public class Teacher
     {
         public int id { get; set; }
@@ -25,15 +26,17 @@ namespace n01612422Cumulative1.Models
 
         public Teacher() { }
 
-        public Teacher(int id, string firstName, string lastName, string employeeNumber, string hireDate, double salary)
+        
+        public Teacher(MySqlDataReader ResultSet)
         {
-            this.id = id;
-            this.fname = firstName;
-            this.lname = lastName;
-            this.employeeNum = employeeNumber;
-            this.hireDate = hireDate;
-            this.salary = salary;
+            this.id = Convert.ToInt32(ResultSet["teacherid"]);
+            this.fname = ResultSet["teacherfname"].ToString();
+            this.lname = ResultSet["teacherlname"].ToString();
+            this.employeeNum = ResultSet["employeenumber"].ToString();
+            this.hireDate = ResultSet["hireDate"].ToString();
+            this.salary = Convert.ToDouble(ResultSet["salary"]);
         }
+        
 
         // This helper function add a course to the teacher object
         // It initialize a empty course list if it has not been initialized before

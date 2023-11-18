@@ -64,18 +64,8 @@ namespace n01612422Cumulative1.Controllers
             //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
-
-                Teacher NewTeacher = new Teacher(
-                            Convert.ToInt32(ResultSet["teacherid"]),
-                            ResultSet["teacherfname"].ToString(),
-                            ResultSet["teacherlname"].ToString(),
-                            ResultSet["employeenumber"].ToString(),
-                            ResultSet["hireDate"].ToString(),
-                            Convert.ToDouble(ResultSet["salary"])
-                    );
-
                 //Add the Author Name to the List
-                Teachers.Add(NewTeacher);
+                Teachers.Add(new Teacher(ResultSet));
             }
 
             //Close the connection between the MySQL Database and the WebServer
@@ -119,28 +109,14 @@ namespace n01612422Cumulative1.Controllers
                 if (newTeacher == null)
                 {
 
-                    newTeacher = new Teacher(
-                            Convert.ToInt32(ResultSet["teacherid"]),
-                            ResultSet["teacherfname"].ToString(),
-                            ResultSet["teacherlname"].ToString(),
-                            ResultSet["employeenumber"].ToString(),
-                            ResultSet["hireDate"].ToString(),
-                            Convert.ToDouble(ResultSet["salary"])
-                        );
+                    
+                  newTeacher = new Teacher(ResultSet);
 
                 }
                 // assign course data to the teacher
                 if (ResultSet["classid"] != DBNull.Value)
                 {
-                    Course newCourse = new Course(
-                       Convert.ToInt32(ResultSet["classid"]),
-                       Convert.ToInt32(ResultSet["teacherid"]),
-                       Convert.ToString(ResultSet["classcode"]),
-                       Convert.ToString(ResultSet["startdate"]),
-                       Convert.ToString(ResultSet["finishdate"]),
-                       Convert.ToString(ResultSet["classname"])
-                   );
-                    newTeacher.addCourse(newCourse);
+                    newTeacher.addCourse(new Course(ResultSet));
                 }
                
                 

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<n01612422Cumulative1.Models.Student>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Student List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Student Number</th>
+            <th>Enroll Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.StudentId</td>
+                <td>@student.StudentFirstName</td>
+                <td>@student.StudentLastName</td>
+                <td>@student.StudentNumber</td>
+                <td>@student.EnrollDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
