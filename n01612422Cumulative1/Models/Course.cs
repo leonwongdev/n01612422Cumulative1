@@ -28,7 +28,18 @@ namespace n01612422Cumulative1.Models
         {
             // You can initialize default values here if needed
         }
+        public Course(int classId, long teacherId, string classCode, string startDate, string finishDate, string className)
+        {
+            this.ClassId = classId;
+            this.TeacherId = teacherId;
+            this.ClassCode = classCode;
+            this.StartDate = startDate;
+            this.FinishDate = finishDate;
+            this.ClassName = className;
+        }
 
+        /*
+         * Comment out this constructor according to cummutive1 comments to remove dependency on SQL logics
         public Course(MySqlDataReader ResultSet)
         {
             this.ClassId = Convert.ToInt32(ResultSet["classid"]);
@@ -38,6 +49,6 @@ namespace n01612422Cumulative1.Models
             this.FinishDate = Convert.ToString(ResultSet["finishdate"]);
             this.ClassName = Convert.ToString(ResultSet["classname"]);
         }
-
+        */
     }
 }

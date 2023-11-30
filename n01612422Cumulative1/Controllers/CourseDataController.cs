@@ -42,7 +42,15 @@ namespace n01612422Cumulative1.Controllers
 
             while (ResultSet.Read())
             {
-                courses.Add(new Course(ResultSet));
+                int classId = Convert.ToInt32(ResultSet["classid"]);
+                long teacherId = Convert.ToInt64(ResultSet["teacherid"]);
+                string classCode = ResultSet["classcode"].ToString();
+                string startDate = ResultSet["startdate"].ToString();
+                string finishDate = ResultSet["finishdate"].ToString();
+                string className = ResultSet["classname"].ToString();
+                Course newCourse = new Course(classId, teacherId, classCode, startDate, finishDate, className);
+
+                courses.Add(newCourse);
             }
 
             return courses;

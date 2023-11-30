@@ -5,13 +5,33 @@
 
 <div id="containerlist">
     <h2>List of Teacher</h2>
+    <p>The Search function searches by name, and then by range of hire date and by range of salary if their value are specified.</p>
+    <p>If any value of the range of hire date is empty, the search will ignore it and will not search by the range of the date.</p>
+    <p>If any value of the salary range is empty, the search will ignore it and will not search by the salary range.</p>
     <form action="/Teacher/List" method="GET">
         <label for="search-key">Name:</label>
         <input class="form-control" id="search-key" type="text" name="SearchKey" autocomplete="off" />
-        <label for="hire-date">Hire date:</label>
-        <input class="form-control" type="date" id="hire-date" name="HireDate" value="2016-08-05" />
-        <label id="salary">Salary:</label>
-        <input class="form-control" type="number" id="salary" name="Salary" step=".01" />
+        <!-- Modified salary search from a single value to a range of value accordnig to cumulative1 comment -->
+        <div class="form-group">
+            <label for="hire-date-from">Hired From:</label>
+            <input class="form-control" type="date" id="hire-date-from" name="HiredFrom" value="2014-01-01" />
+
+            <label for="hire-date-to">Hired From:</label>
+            <input class="form-control" type="date" id="hire-date-to" name="HiredTo" value="2015-12-30" />
+        </div>
+        <!-- Modified salary search from a single value to a range of value accordnig to cumulative1 comment -->
+        <div class="form-group">
+            <label for="minSalary">Min Salary:</label>
+            <input type="number" id="minSalary" name="MinSalary" class="form-control" />
+
+            <label for="maxSalary">Max Salary:</label>
+            <input type="number" id="maxSalary" name="MaxSalary" class="form-control" />
+        </div>
+
+        <div class="form-group">
+
+        </div>
+
         <input type="submit" value="Search" />
     </form>
     <form action="/Teacher/List" method="GET">

@@ -2,9 +2,6 @@
 using n01612422Cumulative1.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace n01612422Cumulative1.Controllers
@@ -25,7 +22,7 @@ namespace n01612422Cumulative1.Controllers
         /// </returns>
         [HttpGet]
         [Route("api/TeacherData/ListTeachers")]
-        public IEnumerable<Teacher> ListTeachers(string HireDate, double Salary, string SearchKey = null)
+        public IEnumerable<Teacher> ListTeachers(string HiredFrom, string HiredTo, double MinSalary, double MaxSalary, string SearchKey = null)
         {
             //Create an instance of a connection
             MySqlConnection Conn = SchoolDbContext.AccessDatabase();
@@ -40,16 +37,19 @@ namespace n01612422Cumulative1.Controllers
 
             string cmdText = "SELECT * FROM teachers WHERE (LOWER(teacherfname) LIKE LOWER(@key) OR LOWER(teacherlname) LIKE LOWER(@key) OR LOWER(concat(teacherfname, ' ', teacherlname)) LIKE LOWER(@key))";
 
-            if (HireDate != null && HireDate != "")
+            // Validation form value before adding filter to SQL query
+            if (HiredFrom != null && HiredFrom != "" && HiredTo != null && HiredTo != "")
             {
                 // if HireDate and Salary is not specified then do not use it in filter;
-                cmdText += "AND hiredate = @hiredate";
-                cmd.Parameters.AddWithValue("@hiredate", HireDate);
+                cmdText += "AND (hiredate BETWEEN @HiredFrom AND @HiredTo)";
+                cmd.Parameters.AddWithValue("@HiredFrom", HiredFrom);
+                cmd.Parameters.AddWithValue("@HiredTo", HiredTo);
             }
-            if (Salary != -1)
+            if (MaxSalary != -1 && MinSalary != -1)
             {
-                cmdText += " AND salary=@salary";
-                cmd.Parameters.AddWithValue("@salary", Salary);
+                cmdText += " AND (salary BETWEEN @MinSalary AND @MaxSalary)";
+                cmd.Parameters.AddWithValue("@MinSalary", MinSalary);
+                cmd.Parameters.AddWithValue("@MaxSalary", MaxSalary);
             }
             cmd.CommandText = cmdText;
             cmd.Parameters.AddWithValue("@key", "%" + SearchKey + "%");
@@ -65,7 +65,16 @@ namespace n01612422Cumulative1.Controllers
             while (ResultSet.Read())
             {
                 //Add the Author Name to the List
-                Teachers.Add(new Teacher(ResultSet));
+                int id = Convert.ToInt32(ResultSet["teacherid"]);
+                string fname = ResultSet["teacherfname"].ToString();
+                string lname = ResultSet["teacherlname"].ToString();
+                string employeeNum = ResultSet["employeenumber"].ToString();
+                string hireDate = ResultSet["hireDate"].ToString();
+                double salary = Convert.ToDouble(ResultSet["salary"]);
+
+
+                Teacher newTeacher = new Teacher(id, fname, lname, employeeNum, hireDate, salary);
+                Teachers.Add(newTeacher);
             }
 
             //Close the connection between the MySQL Database and the WebServer
@@ -109,17 +118,34 @@ namespace n01612422Cumulative1.Controllers
                 if (newTeacher == null)
                 {
 
-                    
-                  newTeacher = new Teacher(ResultSet);
+                    int teacherId = Convert.ToInt32(ResultSet["teacherid"]);
+                    string fname = ResultSet["teacherfname"].ToString();
+                    string lname = ResultSet["teacherlname"].ToString();
+                    string employeeNum = ResultSet["employeenumber"].ToString();
+                    string hireDate = ResultSet["hireDate"].ToString();
+                    double salary = Convert.ToDouble(ResultSet["salary"]);
+
+
+                    newTeacher = new Teacher(teacherId, fname, lname, employeeNum, hireDate, salary);
+                    //newTeacher = new Teacher(ResultSet);
 
                 }
                 // assign course data to the teacher
                 if (ResultSet["classid"] != DBNull.Value)
                 {
-                    newTeacher.addCourse(new Course(ResultSet));
+                    int classId = Convert.ToInt32(ResultSet["classid"]);
+                    long teacherId = Convert.ToInt64(ResultSet["teacherid"]);
+                    string classCode = ResultSet["classcode"].ToString();
+                    string startDate = ResultSet["startdate"].ToString();
+                    string finishDate = ResultSet["finishdate"].ToString();
+                    string className = ResultSet["classname"].ToString();
+
+                    Course newCourse = new Course(classId, teacherId, classCode, startDate, finishDate, className);
+
+                    newTeacher.addCourse(newCourse);
                 }
-               
-                
+
+
             }
 
 

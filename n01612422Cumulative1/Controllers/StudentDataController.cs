@@ -41,7 +41,15 @@ namespace n01612422Cumulative1.Controllers
 
             while (ResultSet.Read())
             {
-                students.Add(new Student(ResultSet));
+                int studentId = Convert.ToInt32(ResultSet["studentid"]);
+                string studentFirstName = ResultSet["studentfname"].ToString();
+                string studentLastName = ResultSet["studentlname"].ToString();
+                string studentNumber = ResultSet["studentnumber"].ToString();
+                string enrollDate = ResultSet["enroldate"].ToString();
+
+                // Now, create a new Student object using the constructor that takes primitive data types
+                Student newStudent = new Student(studentId, studentFirstName, studentLastName, studentNumber, enrollDate);
+                students.Add(newStudent);
             }
 
             return students;

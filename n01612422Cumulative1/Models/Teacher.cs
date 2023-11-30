@@ -26,7 +26,8 @@ namespace n01612422Cumulative1.Models
 
         public Teacher() { }
 
-        
+        /*
+         * Comment out this constructor according to cummutive1 comments to remove dependency on SQL logics
         public Teacher(MySqlDataReader ResultSet)
         {
             this.id = Convert.ToInt32(ResultSet["teacherid"]);
@@ -36,8 +37,17 @@ namespace n01612422Cumulative1.Models
             this.hireDate = ResultSet["hireDate"].ToString();
             this.salary = Convert.ToDouble(ResultSet["salary"]);
         }
-        
+        */
 
+        public Teacher(int id, string fname, string lname, string employeeNum, string hireDate, double salary)
+        {
+            this.id = id;
+            this.fname = fname;
+            this.lname = lname;
+            this.employeeNum = employeeNum;
+            this.hireDate = hireDate;
+            this.salary = salary;
+        }
         // This helper function add a course to the teacher object
         // It initialize a empty course list if it has not been initialized before
         public void addCourse(Course course)
