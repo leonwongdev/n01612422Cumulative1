@@ -152,5 +152,82 @@ namespace n01612422Cumulative1.Controllers
             return newTeacher;
         }
 
+
+        // 
+        /// <summary>
+        /// This function receive a teacher object and use the data to create a new record in database.
+        /// </summary>
+        /// <param name="NewTeacher">A teacher object created using request body</param>
+        /// <example>
+        /// POST: api/teacherdata/addteacher
+        /// Request body
+        /// {
+        ///     "fname": "John",
+        ///     "lname": "Doe",
+        ///     "employeeNum": "T123",
+        ///     "hireDate": "2023-01-01",
+        ///     "salary": 50
+        /// }
+        /// </example>
+        [HttpPost]
+        public string AddTeacher([FromBody] Teacher NewTeacher)
+        {
+            // Validation
+            // Prevent open db connection when the input data is not valid
+            // Check if the first name is empty or null
+            if (string.IsNullOrWhiteSpace(NewTeacher.fname))
+            {
+                return "Error: Please enter a valid First Name.";
+            }
+
+            // Check if the last name is empty or null
+            if (string.IsNullOrWhiteSpace(NewTeacher.lname))
+            {
+                return "Error: Please enter a valid Last Name.";
+            }
+
+            // Check if the employee number is empty or null
+            if (string.IsNullOrWhiteSpace(NewTeacher.employeeNum))
+            {
+                return "Error: Please enter a valid Employee Number.";
+            }
+
+            // Check if the hire date is empty or null
+            if (string.IsNullOrWhiteSpace(NewTeacher.hireDate))
+            {
+                return "Error: Please enter a valid Hire Date.";
+            }
+
+            // Check if the salary is greater than zero
+            if (NewTeacher.salary <= 0)
+            {
+                return "Error: Please enter a valid Salary greater than zero.";
+            }
+
+            // If validation passes, go on to connect the db and execute query
+            MySqlConnection Conn = SchoolDbContext.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "INSERT into teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) values (@fname,@lname,@employeeNum, @hireDate, @salary)";
+            cmd.Parameters.AddWithValue("@fname", NewTeacher.fname);
+            cmd.Parameters.AddWithValue("@lname", NewTeacher.lname);
+            cmd.Parameters.AddWithValue("@employeeNum", NewTeacher.employeeNum);
+            cmd.Parameters.AddWithValue("@hireDate", NewTeacher.hireDate);
+            cmd.Parameters.AddWithValue("@salary", NewTeacher.salary);
+
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+            return "Successfully created a new teacher record in database.";
+        }
     }
 }

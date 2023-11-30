@@ -31,12 +31,16 @@
         <div class="form-group">
 
         </div>
-
-        <input type="submit" value="Search" />
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-secondary" href="/Teacher/List" role="button">Reset Result Table</a>
+        </div>
+        
     </form>
-    <form action="/Teacher/List" method="GET">
-        <input type="submit" value="Reset Result Table" />
-    </form>
+    <nav>
+        <a class="btn btn-success mt-2" href="/Teacher/New" role="button">Add A New Teacher</a>
+    </nav>
+    
     <table class="table table-striped">
         <tr>
             <th>ID</th>
