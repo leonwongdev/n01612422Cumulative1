@@ -297,6 +297,8 @@
     <Content Include="Views\Course\List.cshtml" />
     <Content Include="Views\Student\List.cshtml" />
     <Content Include="Views\Teacher\New.cshtml" />
+    <Content Include="Views\Teacher\DeleteConfirm.cshtml" />
+    <Content Include="Views\Teacher\New_Ajax.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

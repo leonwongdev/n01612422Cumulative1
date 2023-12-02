@@ -1,5 +1,9 @@
 ﻿function onSubmitNewTeacher() {
     console.log("onSubmitNewTeacher");
+    return validateInputs()
+}
+
+function validateInputs() {
     // Get input values after trimming whitespace to make sure user cannot input only empty spaces.
     var fname = document.getElementById('fname').value.trim();
     var lname = document.getElementById('lname').value.trim();
@@ -36,4 +40,97 @@
 
     // If all validations pass, allow form submission
     return true;
+}
+
+function onSubmitAjax() {
+    if (validateInputs === false) {
+        alert("Please check your input and resubmit.");
+        return;
+    }
+    var createTeacherbtn = document.getElementById("createTeacherBtn");
+    var fname = document.getElementById('fname').value.trim();
+    var lname = document.getElementById('lname').value.trim();
+    var employeeNum = document.getElementById('employeeNum').value.trim();
+    var hireDate = document.getElementById('hireDate').value.trim();
+    var salary = document.getElementById('salary').value.trim();
+
+    var TeacherData = {
+        fname,
+        lname,
+        employeeNum,
+        hireDate,
+        salary
+    };
+
+    var URL = window.location.protocol + "//" + window.location.host + "/api/TeacherData/AddTeacher"
+    
+
+    console.log("Ajax URL for Add Teacher",URL);
+
+    var rq = new XMLHttpRequest();
+    rq.open("POST", URL, true);
+    rq.setRequestHeader("Content-Type", "application/json");
+    rq.onreadystatechange = function () {
+        //ready state should be 4 AND status should be 200
+        if (rq.readyState == 4) {
+
+            if (rq.status == 200) {
+                //request is successful and the request is finished
+
+                //nothing to render, the method returns nothing.
+                const msg = rq.responseText;
+                alert(msg);
+                createTeacherbtn.disabled = false;
+            } else {
+                alert("Error sending ajax request");
+                createTeacherbtn.disabled = false;
+            }
+
+        } 
+
+    }
+    //POST information sent through the .send() method
+    rq.send(JSON.stringify(TeacherData));
+    createTeacherbtn.disabled = true;
+}
+
+function onDeleteAjax(id) {
+    if (id == null || id < 0) {
+        alert("Teacher id cannot be null or less than 0.");
+        return;
+    }
+
+    var ajaxDelBtn = document.getElementById('ajaxDelBtn');
+
+    var URL = window.location.protocol + "//" + window.location.host + "/api/TeacherData/DeleteTeacher/" + id;
+
+
+    console.log("Ajax URL for Delete Teacher", URL);
+
+    var rq = new XMLHttpRequest();
+    rq.open("POST", URL, true);
+    rq.setRequestHeader("Content-Type", "application/json");
+    rq.onreadystatechange = function () {
+        //ready state should be 4 AND status should be 200
+        if (rq.readyState == 4) {
+
+            if (rq.status == 200) {
+                //request is successful and the request is finished
+
+                //nothing to render, the method returns nothing.
+                const msg = rq.responseText;
+                alert(msg);
+                window.location.href = "/Teacher/List";
+                ajaxDelBtn.disabled = false;
+            } else {
+                alert("Error sending ajax request");
+                ajaxDelBtn.disabled = false;
+            }
+
+        }
+
+    }
+    //POST information sent through the .send() method
+    rq.send(null);
+    ajaxDelBtn.disabled = true;
 }

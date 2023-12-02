@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "New_Ajax";
+}
+
+<div class="container">
+    <nav>
+        <a class="link-primary" href="/Teacher/List">Back To Teachers</a>
+    </nav>
+    <h2>Create Teacher with Ajax</h2>
+    @{
+        /* AJAX Request to add teacher */
+        /* No form submission needed */
+        /* button onclick will handle form submission */
+        /* Each item has an ID for validation && ajax submission */
+
+    }
+    <form method="post">
+
+        <div>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" class="form-control" required />
+        </div>
+
+        <div>
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" class="form-control" required />
+        </div>
+
+        <div>
+            <label for="employeeNum">Employee Number:</label>
+            <input type="text" id="employeeNum" name="employeeNum" class="form-control" required />
+        </div>
+
+        <div>
+            <label for="hireDate">Hire Date:</label>
+            <input type="date" id="hireDate" name="hireDate" class="form-control" required />
+        </div>
+
+        <div>
+            <label for="salary">Salary:</label>
+            <input type="number" step=".1" id="salary" name="salary" class="form-control" required />
+        </div>
+
+        <button onclick="onSubmitAjax()" class="btn btn-primary mt-1" id="createTeacherBtn">Create Teacher</button>
+    </form>
+</div>

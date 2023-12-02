@@ -153,7 +153,7 @@ namespace n01612422Cumulative1.Controllers
         }
 
 
-        // 
+        // POST: api/teacherdata/addteacher
         /// <summary>
         /// This function receive a teacher object and use the data to create a new record in database.
         /// </summary>
@@ -228,6 +228,62 @@ namespace n01612422Cumulative1.Controllers
             Conn.Close();
 
             return "Successfully created a new teacher record in database.";
+        }
+
+        /// <summary>
+        /// Deletes an Teacher from the connected MySQL Database if the ID of that teacher exists. 
+        /// Maintain referential integrity by setting the related classes's teacher id to null
+        /// So the classes are no longer pointing to a teacher that does not exist.
+        /// </summary>
+        /// <param name="id">The ID of the teacher.</param>
+        /// <example>POST /api/TeaacherData/DeleteTeacher/3</example>
+        [HttpPost]
+        public string DeleteTeacher(int id)
+        {
+            if (id < 0)
+            {
+                return "Error: Failed to delete teacher with invalid id = 0";
+            }
+            //Create an instance of a connection
+            MySqlConnection Conn = SchoolDbContext.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for delete teacher by id.
+            MySqlCommand cmdDelete = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmdDelete.CommandText = "DELETE FROM Teachers WHERE teacherid=@id";
+            cmdDelete.Parameters.AddWithValue("@id", id);
+            cmdDelete.Prepare();
+
+            int rowsAffectedByDelete = cmdDelete.ExecuteNonQuery();
+
+            // Establish a new command (query) for setting the teacher id of the classes taught by this teacher to null
+            // Maintain referential integrity by making sure that any courses in the classes MySQL
+            // table are no longer pointing to a teacher which no longer exists.
+            if (rowsAffectedByDelete >= 1)
+            {
+                // Execute update query only when we make sure we succesfully deleted teacher
+                MySqlCommand cmdUpdate = Conn.CreateCommand();
+
+                //SQL QUERY
+                cmdUpdate.CommandText = "UPDATE classes SET teacherid = null WHERE teacherid = @id";
+                cmdUpdate.Parameters.AddWithValue("@id", id);
+                cmdUpdate.Prepare();
+
+                cmdUpdate.ExecuteNonQuery();
+            }
+            else
+            {
+                return "Failed to delete teacher with id " + id + "Please check your query";
+            }
+
+
+            Conn.Close();
+
+            return "Successfully deleleted teacher with id = " + id;
         }
     }
 }

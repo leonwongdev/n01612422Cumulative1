@@ -1,0 +1,70 @@
+﻿@model n01612422Cumulative1.Models.Teacher
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<div>
+    <a class="navlink" href="/Teacher/List">Back To Teachers</a>
+    <h1>Are you sure you want to delete the below teacher and the related data?</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Employee Number</th>
+                <th>Hire Date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.id</td>
+                <td>@Model.fname</td>
+                <td>@Model.lname</td>
+                <td>@Model.employeeNum</td>
+                <td>@Model.hireDate</td>
+                <td>@Model.salary</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="text-danger">This teacher is currently teaching the courses shown below. After deletion, the teacher id of below courses will be set to null to maintain referential integrity.</p>
+    <table class="table table-bordered">
+        <tr>
+            <th>Course id</th>
+            <th>Teacher id</th>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+        </tr>
+        @if (Model.courses != null)
+        {
+            foreach (var course in Model.courses)
+            {
+                <tr>
+                    <td>@course.ClassId</td>
+                    <td>@course.TeacherId</td>
+                    <td>@course.ClassCode</td>
+                    <td>@course.ClassName</td>
+                    <td>@course.StartDate</td>
+                    <td>@course.FinishDate</td>
+                </tr>
+            }
+        }
+
+    </table>
+    <form method="POST" action="/Teacher/Delete/@Model.id">
+        <button class="btn btn-danger" type="submit">
+            Confirm Delete
+        </button>
+
+    </form>
+    <button class="btn btn-outline-danger" id="ajaxDelBtn" onclick="onDeleteAjax(@Model.id)">
+        Confirm Delete with Ajax
+    </button>
+    <nav>
+        <a class="btn btn-success" href="/Teacher/Show/@Model.id">Cancel</a>
+    </nav>
+</div>

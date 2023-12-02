@@ -8,7 +8,7 @@ namespace n01612422Cumulative1.Controllers
     public class TeacherController : Controller
     {
 
-        TeacherDataController controller = new TeacherDataController();
+        TeacherDataController teacherDataController = new TeacherDataController();
 
         // GET: Teacher
         public ActionResult Index()
@@ -42,7 +42,7 @@ namespace n01612422Cumulative1.Controllers
         public ActionResult List(string SearchKey = null, string HiredFrom = null, String HiredTo = null, double MinSalary = -1, double MaxSalary = -1)
         {
 
-            IEnumerable<Teacher> teachers = controller.ListTeachers(HiredFrom, HiredTo, MinSalary, MaxSalary, SearchKey);
+            IEnumerable<Teacher> teachers = teacherDataController.ListTeachers(HiredFrom, HiredTo, MinSalary, MaxSalary, SearchKey);
             return View(teachers);
         }
 
@@ -54,7 +54,7 @@ namespace n01612422Cumulative1.Controllers
         /// <returns>passing a teacher object to view</returns>
         public ActionResult Show(int id)
         {
-            Teacher newTeacher = controller.FindTeacher(id);
+            Teacher newTeacher = teacherDataController.FindTeacher(id);
 
 
             return View(newTeacher);
@@ -73,6 +73,18 @@ namespace n01612422Cumulative1.Controllers
             return View();
         }
 
+        // GET: /Teacher/New_Ajax
+        /// <summary>
+        /// This functions serve the /Teacher/New_Ajax.cshtml.
+        /// The view displays a form to get the data of new teacher.
+        /// The data will be used to create a new record in database using AJAX.
+        /// </summary>
+        /// <returns>Serve the /Teacher/New_Ajax.cshtml</returns>
+        public ActionResult New_Ajax()
+        {
+            return View();
+        }
+
         /// <summary>
         /// This function receive the form data from POST /Teacher/Create
         /// Then pass the data to TeacherDataController for inserting record to database.
@@ -82,7 +94,35 @@ namespace n01612422Cumulative1.Controllers
         [HttpPost]
         public ActionResult Create(Teacher NewTeacher)
         {
-            controller.AddTeacher(NewTeacher);
+            teacherDataController.AddTeacher(NewTeacher);
+            return RedirectToAction("List");
+        }
+
+        // GET: Teacher/deelteconfirm/{id}
+        /// <summary>
+        /// This function retrieves the teacher data and the related courses by id
+        /// Then display the info to user to ask for user's confirmation before delete the teacher in DB.
+        /// </summary>
+        /// <param name="id">The id of the teacher to be deleted</param>
+        /// <returns>Display a page that shows the teacher info and classes</returns>
+        public ActionResult DeleteConfirm(int id)
+        {
+
+            return View(teacherDataController.FindTeacher(id));
+        }
+
+        //POST : /Teacher/Delete/{id}
+        /// <summary>
+        /// This function deletes teacher by id and set the teacherid of the related courses to null
+        /// Then redirect user back to list page.
+        /// </summary>
+        /// <param name="id">The id of the teacher to be deleted</param>
+        /// <returns>Redirect to List page</returns>
+        /// <example>POST /Teacher/Delete/3</example>
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            teacherDataController.DeleteTeacher(id);
             return RedirectToAction("List");
         }
     }
