@@ -4,6 +4,8 @@
 }
 
 function validateInputs() {
+    // Initiative: Use JavaScript and Client Side Validation to ensure that the user doesn’t accidentally
+    // submit a form with missing information(such as a teacher name)
     // Get input values after trimming whitespace to make sure user cannot input only empty spaces.
     var fname = document.getElementById('fname').value.trim();
     var lname = document.getElementById('lname').value.trim();
@@ -42,7 +44,10 @@ function validateInputs() {
     return true;
 }
 
+// Initiative: Use JavaScript and AJAX to send an XHR request for adding a teacher (See C# For
+// Web Development Pt10 in Module 8)
 function onSubmitAjax() {
+
     if (validateInputs === false) {
         alert("Please check your input and resubmit.");
         return;
@@ -94,6 +99,8 @@ function onSubmitAjax() {
     createTeacherbtn.disabled = true;
 }
 
+// Initiative: Use JavaScript and AJAX to send an XHR request for adding a teacher (See C# For
+// Web Development Pt10 in Module 8)
 function onDeleteAjax(id) {
     if (id == null || id < 0) {
         alert("Teacher id cannot be null or less than 0.");

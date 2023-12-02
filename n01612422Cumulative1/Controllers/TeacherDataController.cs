@@ -172,6 +172,8 @@ namespace n01612422Cumulative1.Controllers
         [HttpPost]
         public string AddTeacher([FromBody] Teacher NewTeacher)
         {
+            // Initiative: Use C# Server Side Validation to ensure that there is no missing information when a
+            // teacher is added(such as a teacher name)
             // Validation
             // Prevent open db connection when the input data is not valid
             // Check if the first name is empty or null
@@ -261,7 +263,7 @@ namespace n01612422Cumulative1.Controllers
             int rowsAffectedByDelete = cmdDelete.ExecuteNonQuery();
 
             // Establish a new command (query) for setting the teacher id of the classes taught by this teacher to null
-            // Maintain referential integrity by making sure that any courses in the classes MySQL
+            // Initiative: Maintain referential integrity by making sure that any courses in the classes MySQL
             // table are no longer pointing to a teacher which no longer exists.
             if (rowsAffectedByDelete >= 1)
             {
