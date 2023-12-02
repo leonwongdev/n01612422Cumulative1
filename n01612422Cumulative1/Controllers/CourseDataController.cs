@@ -2,11 +2,7 @@
 using n01612422Cumulative1.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 
 namespace n01612422Cumulative1.Controllers
 {
@@ -43,7 +39,7 @@ namespace n01612422Cumulative1.Controllers
             while (ResultSet.Read())
             {
                 int classId = Convert.ToInt32(ResultSet["classid"]);
-                long teacherId = Convert.ToInt64(ResultSet["teacherid"]);
+                long teacherId = ResultSet["teacherid"] is DBNull ? -1 : Convert.ToInt64(ResultSet["teacherid"]);
                 string classCode = ResultSet["classcode"].ToString();
                 string startDate = ResultSet["startdate"].ToString();
                 string finishDate = ResultSet["finishdate"].ToString();

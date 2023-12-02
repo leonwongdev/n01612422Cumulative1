@@ -21,7 +21,14 @@
         {
             <tr>
                 <td>@course.ClassId</td>
-                <td>@course.TeacherId</td>
+                @if (course.TeacherId != -1) // Replace "someValue" with the value you want to check
+                {
+                    <td>@course.TeacherId</td>
+                }
+                else
+                {
+                    <td>Null</td>
+                }
                 <td>@course.ClassCode</td>
                 <td>@course.StartDate</td>
                 <td>@course.FinishDate</td>
