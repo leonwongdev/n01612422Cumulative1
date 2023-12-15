@@ -7,3 +7,4 @@
 3. Ajax is used to update teacher. There is two button created on the Show.cshtml, one for MVC pattern and one for Ajax pattern.
 4. Used curl to test the update teacher api.(path: "./csharp-cumulative3.png")
    ![proof-of-curl](./csharp-cumulative3.png)
+5. Server side rendering diagram of the update feature. (path: "./update-flow.png")![update flow](./update-flow.png)
