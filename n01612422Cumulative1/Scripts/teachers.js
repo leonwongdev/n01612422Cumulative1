@@ -1,6 +1,11 @@
 ﻿function onSubmitNewTeacher() {
     console.log("onSubmitNewTeacher");
-    return validateInputs()
+    const validationResult = validateInputs();
+    if (validationResult === true) {
+        // Proceed to submit form if validation is passed.
+        return true;
+    }
+    return false;
 }
 
 function validateInputs() {
@@ -48,7 +53,7 @@ function validateInputs() {
 // Web Development Pt10 in Module 8)
 function onSubmitAjax() {
 
-    if (validateInputs === false) {
+    if (validateInputs() === false) {
         alert("Please check your input and resubmit.");
         return;
     }

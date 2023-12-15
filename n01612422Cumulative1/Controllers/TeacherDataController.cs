@@ -264,7 +264,8 @@ namespace n01612422Cumulative1.Controllers
 
             // Establish a new command (query) for setting the teacher id of the classes taught by this teacher to null
             // Initiative: Maintain referential integrity by making sure that any courses in the classes MySQL
-            // table are no longer pointing to a teacher which no longer exists.
+            // table are no longer pointing to a teacher which no longer exists.
+
             if (rowsAffectedByDelete >= 1)
             {
                 // Execute update query only when we make sure we succesfully deleted teacher
