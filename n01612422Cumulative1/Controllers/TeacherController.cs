@@ -186,5 +186,25 @@ namespace n01612422Cumulative1.Controllers
 
             return RedirectToAction("Show/" + id);
         }
+
+
+        /// <summary>
+        /// Routes to a dynamically rendered "Ajax Update" Page. The "Ajax Update" page will utilize JavaScript to send an HTTP Request to the data access layer (/api/AuthorData/UpdateAuthor)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult Update_Ajax(int id)
+        {
+            try
+            {
+                Teacher SelectedTeacher = teacherDataController.FindTeacher(id);
+                return View(SelectedTeacher);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
+        }
     }
 }

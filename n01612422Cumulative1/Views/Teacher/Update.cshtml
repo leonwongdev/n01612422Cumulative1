@@ -10,8 +10,11 @@
         <a class="link-primary" href="/Teacher/List">Back To Teachers</a>
     </nav>
     <h2>Update</h2>
+    @{ 
+        /*Client side form validation using */
+    }
 
-    <form method="post" action="/Teacher/Update/@Model.id" onsubmit="">
+    <form method="post" action="/Teacher/Update/@Model.id" onsubmit="return validateInputs()">
 
         <div>
             <label for="fname">First Name:</label>

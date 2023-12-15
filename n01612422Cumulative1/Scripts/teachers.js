@@ -146,3 +146,52 @@ function onDeleteAjax(id) {
     rq.send(null);
     ajaxDelBtn.disabled = true;
 }
+
+function onUpdateTeacher(teacherId) {
+    // initiative: client side validation
+    const validationResult = validateInputs();
+    if (validationResult === false) {
+        // If validation failed
+        // Show error message and stop proceed the below code log
+        alert("Invalid teacher information, please verify your form again");
+        return;
+    }
+
+
+    var fname = document.getElementById('fname').value.trim();
+    var lname = document.getElementById('lname').value.trim();
+    var employeeNum = document.getElementById('employeeNum').value.trim();
+    var hireDate = document.getElementById('hireDate').value.trim();
+    var salary = document.getElementById('salary').value.trim();
+
+    var TeacherData = {
+        fname,
+        lname,
+        employeeNum,
+        hireDate,
+        salary
+    };
+
+    // Assume the api has the same domain with the client website
+    var URL = window.location.protocol + "//" + window.location.host + "/api/teacherdata/updateteacher/" + teacherId;
+
+    var rq = new XMLHttpRequest();
+    rq.open("POST", URL, true);
+    rq.setRequestHeader("Content-Type", "application/json");
+    rq.onreadystatechange = function () {
+        //ready state should be 4 AND status should be 200
+        if (rq.readyState == 4) {
+            if (rq.status == 200) {
+                //request is successful and the request is finished
+
+                //nothing to render, the method returns nothing.
+                alert(`Successfully updated teacher with id = ${teacherId}`);
+
+            } else {
+                alert("Error updating teacher, please contact system adminstrator");
+            }
+        }
+    }
+    //POST information sent through the .send() method
+    rq.send(JSON.stringify(TeacherData));
+}

@@ -301,6 +301,7 @@
     <Content Include="Views\Teacher\New_Ajax.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Teacher\Update.cshtml" />
+    <Content Include="Views\Teacher\Update_Ajax.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
