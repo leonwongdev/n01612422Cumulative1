@@ -125,5 +125,66 @@ namespace n01612422Cumulative1.Controllers
             teacherDataController.DeleteTeacher(id);
             return RedirectToAction("List");
         }
+
+
+        /// <summary>
+        /// Routes to a dynamically generated "Teacher Update" Page. Gathers information from the database.
+        /// </summary>
+        /// <param name="id">Id of the Teacher</param>
+        /// <returns>A dynamic "Update Teacher" webpage which provides the current information of the author and asks the user for new information as part of a form.</returns>
+        /// <example>GET : /Teacher/Update/5</example>
+        public ActionResult Update(int id)
+        {
+            try
+            {
+                Teacher SelectedTeacher = teacherDataController.FindTeacher(id);
+                return View(SelectedTeacher);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+
+        /// <summary>
+        /// Receives a POST request containing information about an existing author in the system, with new values. Conveys this information to the API, and redirects to the "Author Show" page of our updated author.
+        /// </summary>
+        /// <param name="id">Id of the Author to update</param>
+        /// <param name="fname">The updated first name of the teacher</param>
+        /// <param name="lname">The updated last name of the teacher</param>
+        /// <param name="employeeNum">The updated employee of the teacher.</param>
+        /// <param name="hireDate">The updated hire date of the teacher.</param>
+        /// <param name="salary">The updated salary of the teacher.</param>
+        /// <returns>A dynamic webpage which provides the current information of the teacher.</returns>
+        /// <example>
+        /// POST : /Teacher/Update/10
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"fname":"Leon",
+        ///	"lname":"Wong",
+        ///	"employeeNum":"T111",
+        ///	"hireDate":"2023-12-15",
+        ///	"salary":100
+        /// }
+        /// </example>
+        [HttpPost]
+        public ActionResult Update(int id, string fname, string lname, string employeeNum, string hireDate, double salary)
+        {
+            try
+            {
+                Teacher teacher = new Teacher(id, fname, lname, employeeNum, hireDate, salary);
+                teacherDataController.UpdateTeacher(id, teacher);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
+
+
+            return RedirectToAction("Show/" + id);
+        }
     }
 }

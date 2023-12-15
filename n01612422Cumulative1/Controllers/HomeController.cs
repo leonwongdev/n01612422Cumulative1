@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace n01612422Cumulative1.Controllers
 {
@@ -12,6 +8,16 @@ namespace n01612422Cumulative1.Controllers
         {
             ViewBag.Title = "Home Page";
 
+            return View();
+        }
+
+        //GET : /Home/Error
+        /// <summary>
+        /// This window is for showing Generic Errors!
+        /// </summary>
+        public ActionResult Error()
+        {
+            //TempData["ErrorMessage"] should be set
             return View();
         }
     }

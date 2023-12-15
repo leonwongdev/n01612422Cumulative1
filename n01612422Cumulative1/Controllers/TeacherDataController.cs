@@ -2,6 +2,7 @@
 using n01612422Cumulative1.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web.Http;
 
 namespace n01612422Cumulative1.Controllers
@@ -287,6 +288,77 @@ namespace n01612422Cumulative1.Controllers
             Conn.Close();
 
             return "Successfully deleleted teacher with id = " + id;
+        }
+
+
+
+
+        /// <summary>
+        /// Updates an teacher on the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="teacher">An object with fields that map to the columns of the teacher's table.</param>
+        /// <example>
+        /// POST api/TeacherData/UpdateTeacher/1 
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"fname":"Leon",
+        ///	"lname":"Wong",
+        ///	"employeeNum":"T111",
+        ///	"hireDate":"2023-12-15",
+        ///	"salary":100
+        /// }
+        /// </example>
+        [HttpPost]
+        public string UpdateTeacher(int id, [FromBody] Teacher teacher)
+        {
+
+
+            //Exit method if model fields are not included.
+            if (!teacher.IsValid()) throw new ApplicationException("Posted Data was not valid.");
+            MySqlConnection Conn = SchoolDbContext.AccessDatabase();
+            try
+            {
+
+                //Open the connection between the web server and database
+                Conn.Open();
+
+                //Establish a new command (query) for our database
+                MySqlCommand cmd = Conn.CreateCommand();
+
+                //SQL QUERY
+                cmd.CommandText = "UPDATE teachers SET teacherfname=@fname, teacherlname=@lname, employeenumber=@employeeNum, hiredate=@hireDate, salary=@salary WHERE teacherid=@id";
+
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@fname", teacher.fname);
+                cmd.Parameters.AddWithValue("@lname", teacher.lname);
+                cmd.Parameters.AddWithValue("@employeeNum", teacher.employeeNum);
+                cmd.Parameters.AddWithValue("@hireDate", teacher.hireDate);
+                cmd.Parameters.AddWithValue("@salary", teacher.salary);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+                return "Succesfully updated teacher with id=" + id;
+
+            }
+            catch (MySqlException ex)
+            {
+                //Catches issues with MySQL.
+                Debug.WriteLine(ex);
+                throw new ApplicationException("Issue was a database issue.", ex);
+            }
+            catch (Exception ex)
+            {
+                //Catches generic issues
+                Debug.Write(ex);
+                throw new ApplicationException("There was a server issue.", ex);
+            }
+            finally
+            {
+                //Close the connection between the MySQL Database and the WebServer
+                Conn.Close();
+
+            }
+
         }
     }
 }

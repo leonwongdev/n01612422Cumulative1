@@ -1,9 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
+using System.Diagnostics;
 
 namespace n01612422Cumulative1.Models
 {
@@ -18,7 +15,11 @@ namespace n01612422Cumulative1.Models
 
         public string employeeNum { get; set; }
 
-        public string hireDate { get; set; }
+        public string hireDate
+        {
+            get;
+            set;
+        }
 
         public double salary { get; set; }
 
@@ -59,5 +60,43 @@ namespace n01612422Cumulative1.Models
             this.courses.Add(course);
         }
 
+        // Server side validation following Blog_poject_7 example
+        public bool IsValid()
+        {
+            bool valid = true;
+
+            if (String.IsNullOrWhiteSpace(this.fname)
+                || String.IsNullOrWhiteSpace(this.lname)
+                || String.IsNullOrWhiteSpace(this.employeeNum)
+                || String.IsNullOrWhiteSpace(this.hireDate)
+                || this.salary <= 0
+                )
+            {
+                //Base validation to check if the fields are entered.
+                valid = false;
+            }
+            else
+            {
+                //Validation for fields to make sure they meet server constraints
+                if (this.fname.Length < 2 || this.fname.Length > 255) valid = false;
+                if (this.lname.Length < 2 || this.lname.Length > 255) valid = false;
+                if (this.employeeNum.Length < 2 || this.employeeNum.Length > 255) valid = false;
+                if (this.hireDate.Length < 2 || this.hireDate.Length > 255) valid = false;
+
+            }
+            Debug.WriteLine("The Teacher model validity is : " + valid);
+
+            return valid;
+        }
+
+        public string getFormattedHireDate()
+        {
+            // Convert the hire date from string to yyyy-MM-dd format so that it can be use for rendering the default date on the form
+            DateTime dateValue = DateTime.Parse(this.hireDate);
+            string formattedDate = dateValue.ToString("yyyy-MM-dd");
+
+
+            return formattedDate;
+        }
     }
 }
